@@ -39,16 +39,15 @@
     <!--// HEADER -->
 
     <!-- FORM -->
-    <form action="" method="post">
-        <section class="section">
-            <div class="container">
-                <div class="columns is-centered">
-                    <div class="column is-half is-primary">
-
+    <section class="section" id="awardForm">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-half is-primary">
+                    <form action="test-reply.php" method="post">
                         <div class="field">
                             <label class="label is-large">Award: ชื่อรางวัล</label>
                             <p class="control has-icon">
-                                <input class="input is-success is-large is-rounded" type="text" value="">
+                                <input name="name" id="name" class="input is-success is-large is-rounded" type="text" value="">
                                 <span class="icon is-small">
                                     <i class="fa fa-award"></i>
                                 </span>
@@ -58,7 +57,7 @@
                         <div class="field">
                             <label class="label is-large">Number: จำนวนรางวัล</label>
                             <p class="control has-icon">
-                                <input class="input is-success is-large is-rounded" type="number" value="">
+                                <input name="number" id="number" class="input is-success is-large is-rounded" type="number" value="">
                                 <span class="icon is-small">
                                     <i class="fa fa-users"></i>
                                 </span>
@@ -70,49 +69,89 @@
                                 <button class="button is-primary is-large is-rounded is-fullwidth">สุ่มเลย</button>
                             </p>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </section>
-    </form>
+        </div>
+    </section>
     <!--// FORM  -->
 
     <!-- Latest compiled and minified JS -->
     <script src="//code.jquery.com/jquery.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/js/bootstrap.min.js"></script>
+    <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/js/bootstrap.min.js"></script> -->
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.5.3/dist/sweetalert2.all.min.js"></script>
 
     <script>
         'use strict'
 
+
+
+
+
+        //    อนุมุติรายการจอง
         $('form').on('submit', (e) => {
             e.preventDefault()
-            let timerInterval
-            Swal.fire({
-                title: 'ระบบกำลังทำการสุ่มจับรางวัล!',
-                html: 'I will close in <b></b> milliseconds.',
-                timer: 2000,
-                timerProgressBar: true,
-                onBeforeOpen: () => {
-                    Swal.showLoading()
-                    timerInterval = setInterval(() => {
-                        Swal.getContent().querySelector('b')
-                            .textContent = Swal.getTimerLeft()
-                    }, 100)
-                },
-                onClose: () => {
-                    clearInterval(timerInterval)
+            let name = $('#name').val()
+            let number = $('#number').val()
+            let target = $('form').attr('action')
+
+            console.log(name + number + target);
+            console.log($(this).attr('action'));
+
+            let jqxhr = $.post(target, {
+                name: name,
+                number: number
+            }, () => {
+                // do nothing;
+            }).done(function () {
+                let timerInterval
+                Swal.fire({
+                    title: 'ระบบกำลังทำการสุ่มจับรางวัล!',
+                    html: 'I will close in <b></b> milliseconds.',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    onBeforeOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                            Swal.getContent().querySelector('b')
+                                .textContent = Swal.getTimerLeft()
+                        }, 100)
+
+                        console.log('ส่งข้อมูล')
+                    },
+                    onClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.timer
+                    ) {
+                        console.log('I was closed by the timer') // eslint-disable-line
+                        console.log(jqxhr.responseText);
+                        $('#awardForm').hide()
+
+                        $.each(JSON.parse(jqxhr.responseText), (i,item) => {
+                            $('body').append($('<div>', {
+                                text: item.winner+' '+ item.award
+                            }));
+                        });
+                    }
+                })
+
+            }).fail((data) => {
+                if (data.responseText !== '') {
+                    Swal.fire({
+                        title: jqxhr.responseText,
+                        icon: 'warning',
+                        confirmButtonColor: '#FF5722'
+                    });
+                } else {
+                    Swal.fire("Oops!", 'Oops! Something went wrong and we couldn\'t send your message', 'error');
                 }
-            }).then((result) => {
-                if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.timer
-                ) {
-                    console.log('I was closed by the timer') // eslint-disable-line
-                }
-            })
-        })
+            });
+        });
     </script>
 
 </body>
