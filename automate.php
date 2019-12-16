@@ -7,8 +7,8 @@ require DEV_PATH . '/classes/db.class.v2.php';
 require DEV_PATH . '/functions/global.php';
 
 
-$GETAWARDNAME = ( isset( $_GET['name'] ) ) ? $_GET['name'] : null;
-$GETAWARDNUMBER = ( isset( $_GET['number'] ) ) ? $_GET['number'] : null;
+$GETAWARDNAME = ( isset( $_POST['name'] ) ) ? $_POST['name'] : null;
+$GETAWARDNUMBER = ( isset( $_POST['number'] ) ) ? $_POST['number'] : null;
 
 $year = date("Y");
 $ap_select = CON::selectArrayDB( [], "SELECT ap_id FROM award_person WHERE ap_year = '" . $year . "' AND ap_award = '' " );
