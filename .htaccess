@@ -1,0 +1,22 @@
+RewriteEngine On
+# RewriteBase /
+
+Options +FollowSymLinks +MultiViews
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteCond %{REQUEST_URI} !(/$|\.)
+RewriteRule (.*) %{REQUEST_URI}/ [R=301,L]
+
+# RewriteRule ^forward/([0-9-]+)/?$ admin-forward.php?id=$1 [QSA]
+# RewriteRule ^view/([0-9-]+)/?$ view-detail.php?id=$1 [QSA]
+# RewriteRule ^tags/(.*)/$ index.php?dev=tags&tag=$1 [QSA]
+RewriteRule ^([a-z-]+)/?$ index.php?dev=$1 [QSA]
+RewriteRule ^([a-z-]+)/([0-9]+)/?$ index.php?dev=$1&id=$2 [QSA]
+# RewriteRule ^([a-z-]+)/([a-z-]+)/?$ index.php?dev=$1&mode=$2 [QSA]
+
+RewriteRule ^([0-9-]+)/?$ index.php?datadate=$1 [QSA]
+# RewriteRule ^([0-9-]+)/([0-9-]+)/edit/([0-9-]+)/?$ index.php?number=$1&tid=$2&dev=manage&id=$3 [QSA]
+# # RewriteRule ^([a-z-]+)/$ index.php?dev=$1 [QSA]
+# RewriteRule ^([a-z-]+)/([a-z-]+)/([0-9]+)/?$ index.php?dev=$1-$2&section=$3 [QSA]
