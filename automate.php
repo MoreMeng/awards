@@ -28,8 +28,7 @@ CON::updateDB( [], " INSERT INTO award_list (al_name, al_datetime, al_number) VA
 $query = CON::selectArrayDB( [], "SELECT ap_name, ap_award FROM award_person WHERE ap_id IN (" . substr($apid,0,-1) . ") ") ;
 
 foreach ( $query as $row ) {
-
-    $json_data['data'][] = [
+    $json_data[] = [
         'winner'  => $row['ap_name'],
         'award'  => $row['ap_award']
     ];
