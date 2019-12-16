@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css">
     <link href="https://fonts.googleapis.com/css?family=Mitr&display=swap" rel="stylesheet">
     <style>
-        body {
+        body,
+        input,
+        button {
             font-family: 'Mitr', sans-serif;
         }
     </style>
@@ -16,7 +18,7 @@
 
 <body>
 
-
+    <!-- HEADER -->
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
@@ -34,43 +36,85 @@
             </div>
         </div>
     </section>
+    <!--// HEADER -->
 
-    <section class="section">
+    <!-- FORM -->
+    <form action="" method="post">
+        <section class="section">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-half is-primary">
 
-        <div class="container">
-            <div class="columns is-centered">
-                <div class="column is-half is-primary">
+                        <div class="field">
+                            <label class="label is-large">Award: ชื่อรางวัล</label>
+                            <p class="control has-icon">
+                                <input class="input is-success is-large is-rounded" type="text" value="">
+                                <span class="icon is-small">
+                                    <i class="fa fa-award"></i>
+                                </span>
+                            </p>
+                        </div>
 
-                    <div class="field">
-                        <label class="label is-large">Award: ชื่อรางวัล</label>
-                        <p class="control has-icon">
-                            <input class="input is-success is-large is-rounded" type="text" value="">
-                            <span class="icon is-small">
-                                <i class="fa fa-trophy"></i>
-                            </span>
-                        </p>
-                    </div>
+                        <div class="field">
+                            <label class="label is-large">Number: จำนวนรางวัล</label>
+                            <p class="control has-icon">
+                                <input class="input is-success is-large is-rounded" type="number" value="">
+                                <span class="icon is-small">
+                                    <i class="fa fa-users"></i>
+                                </span>
+                            </p>
+                        </div>
 
-                    <div class="field">
-                        <label class="label is-large">Number: จำนวนรางวัล</label>
-                        <p class="control has-icon">
-                            <input class="input is-success is-large is-rounded" type="number" value="">
-                            <span class="icon is-small">
-                                <i class="fa fa-users"></i>
-                            </span>
-                        </p>
-                    </div>
-
-                    <div class="field">
-                        <p class="control">
-                            <button class="button is-primary is-large is-rounded is-fullwidth">สุ่มเลย</button>
-                        </p>
+                        <div class="field">
+                            <p class="control">
+                                <button class="button is-primary is-large is-rounded is-fullwidth">สุ่มเลย</button>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-    </section>
-    </div>
+        </section>
+    </form>
+    <!--// FORM  -->
+
+    <!-- Latest compiled and minified JS -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/js/bootstrap.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.5.3/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+        'use strict'
+
+        $('form').on('submit',(e) => {
+            e.preventDefault()
+        let timerInterval
+        Swal.fire({
+            title: 'ระบบกำลังทำการสุ่มจับรางวัล!',
+            html: 'I will close in <b></b> milliseconds.',
+            timer: 2000,
+            timerProgressBar: true,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('b')
+                        .textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            onClose: () => {
+                clearInterval(timerInterval)
+            }
+        }).then((result) => {
+            if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.timer
+            ) {
+                console.log('I was closed by the timer') // eslint-disable-line
+            }
+        })
+        })
+    </script>
+
 </body>
 
 </html>
