@@ -10,14 +10,28 @@ require DEV_PATH . '/functions/global.php';
 $GETAWARDNAME = ( isset( $_GET['name'] ) ) ? $_GET['name'] : null;
 $GETAWARDNUMBER = ( isset( $_GET['number'] ) ) ? $_GET['number'] : null;
 
+$year = date("Y");
+$ap_select = CON::selectArrayDB( [], "SELECT ap_id FROM award_person WHERE ap_year = '" . $year . "' AND ap_award = '' " );
 
-$query = CON::selectArrayDB( [], "" );
+$random_keys = array_rand($ap_select, $_POST['number']);
+$apid = '';
+foreach ( $random_keys as $row ) {
+    $temp = implode("",$ap_select[$row]);
+    $apid .= $temp.",";
+}
+
+CON::updateDB( [], " UPDATE award_person SET ap_award = '" . $_POST['name'] . "' WHERE ap_id IN (" . substr($apid,0,-1) . ") " );
+
+CON::updateDB( [], " INSERT INTO award_list (al_name, al_datetime, al_number) VALUES ('" . $_POST['name'] . "', NOW(), " . $_POST['number'] . ") " );
+
+
+$query = CON::selectArrayDB( [], "SELECT ap_name, ap_award FROM award_person WHERE ap_id IN (" . substr($apid,0,-1) . ") ") ;
 
 foreach ( $query as $row ) {
 
     $json_data['data'][] = [
-        'winner'  => $row->ap_name,
-        'award'  => $row->ap_award
+        'winner'  => $row['ap_name'],
+        'award'  => $row['ap_award']
     ];
 }
 
