@@ -16,16 +16,21 @@
             font-family: 'Mitr', sans-serif;
         }
 
-        #winners p{
-        position:relative;
-        left:50px;
-        opacity:0;
-        animation: blur-text 2.5s linear alternate;
+        #winners p {
+            position: relative;
+            left: 50px;
+            opacity: 0;
+            animation: blur-text 2.5s linear alternate;
         }
 
         @keyframes blur-text {
-            0% {filter: blur(25px);}
-            100% {filter: blur(0px);}
+            0% {
+                filter: blur(25px);
+            }
+
+            100% {
+                filter: blur(0px);
+            }
         }
     </style>
 </head>
@@ -91,7 +96,7 @@
     </section>
     <!--// FORM  -->
 
-    <section class="section is-invisible" id="awardList" >
+    <section class="section is-invisible" id="awardList">
         <nav class="panel is-danger">
 
             <p class="panel-heading">
@@ -168,20 +173,18 @@
                             $('#winners').append($(`<p class="panel-block is-active is-size-3"> <span class="panel-icon is-size-3"> <i class="fa fa-award"></i> </span> ${item.winner} </p>`));
                         });
 
-                        var panels = $("#winners"),
+                        let panels = $("#winners"),
                             items = panels.find("p"),
-                            delayPanel = 500,
-                            delayItem = 200,
-                            i = delayPanel,
+                            delayItem = 500,
                             j = 1000;
 
-                        items.each(function(){
-                        
-                        $(this).delay(j).animate({
-                            left:"0px",
-                            opacity:1
-                        },1000);
-                        j += delayItem;
+                        items.each(function () {
+
+                            $(this).delay(j).animate({
+                                left: "0px",
+                                opacity: 1
+                            }, 500);
+                            j += delayItem;
                         });
 
                     }
