@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hello Bulma!</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.css">
     <link href="https://fonts.googleapis.com/css?family=Mitr&display=swap" rel="stylesheet">
     <style>
         body,
@@ -46,9 +46,9 @@
                     <form action="automate.php" method="post">
                         <div class="field">
                             <label class="label is-large">Award: ชื่อรางวัล</label>
-                            <p class="control has-icon">
+                            <p class="control has-icons-left">
                                 <input name="name" id="name" class="input is-success is-large is-rounded" type="text" value="">
-                                <span class="icon is-small">
+                                <span class="icon is-small is-left">
                                     <i class="fa fa-award"></i>
                                 </span>
                             </p>
@@ -56,9 +56,9 @@
 
                         <div class="field">
                             <label class="label is-large">Number: จำนวนรางวัล</label>
-                            <p class="control has-icon">
+                            <p class="control has-icons-left">
                                 <input name="number" id="number" class="input is-success is-large is-rounded" type="number" value="">
-                                <span class="icon is-small">
+                                <span class="icon is-small is-left">
                                     <i class="fa fa-users"></i>
                                 </span>
                             </p>
@@ -76,11 +76,28 @@
     </section>
     <!--// FORM  -->
 
+    <section class="section is-invisible" id="awardList" >
+        <nav class="panel is-danger">
+
+            <p class="panel-heading">
+                รายชื่อผู้ได้รับรางวัล <span id="awards"></span>
+            </p>
+            <div id="winners"></div>
+            <!-- <p class="panel-block is-active is-size-3">
+                <span class="panel-icon is-size-3">
+                    <i class="fa fa-award"></i>
+                </span>
+                bulma
+            </p> -->
+
+        </nav>
+    </section>
+
     <!-- Latest compiled and minified JS -->
     <script src="//code.jquery.com/jquery.js"></script>
     <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/js/bootstrap.min.js"></script> -->
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.5.3/dist/sweetalert2.all.min.js"></script>
+    <script defer src="//use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@9.5.3/dist/sweetalert2.all.min.js"></script>
 
     <script>
         'use strict'
@@ -125,13 +142,21 @@
                     ) {
                         console.log('I was closed by the timer') // eslint-disable-line
                         console.log(jqxhr.responseText);
-                        $('#awardForm').hide()
 
-                        $.each(JSON.parse(jqxhr.responseText), (i,item) => {
-                            $('body').append($('<div>', {
-                                text: item.winner+' '+ item.award
-                            }));
+                        $('#awardForm').hide();
+
+                        $('#awardList').removeClass('is-invisible');
+
+                        $('#awards').append(name);
+
+                        $.each(JSON.parse(jqxhr.responseText), (i, item) => {
+                            $('#winners').append($(`<p class="panel-block is-active is-size-3 is-invisible"> <span class="panel-icon is-size-3"> <i class="fa fa-award"></i> </span> ${item.winner} </p>`));
                         });
+
+                        setInterval(() => {
+                            $('#winners').find('p').removeClass('is-invisible');
+
+                        }, 2000);
                     }
                 })
 
