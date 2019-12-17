@@ -6,12 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hello Bulma!</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js">
     <link href="https://fonts.googleapis.com/css?family=Mitr&display=swap" rel="stylesheet">
     <style>
         body,
         input,
         button {
             font-family: 'Mitr', sans-serif;
+        }
+
+        #winners p {
+            position: relative;
+            left: 50px;
+            opacity: 0;
+            animation: blur-text 2.5s linear alternate;
+        }
+
+        @keyframes blur-text {
+            0% {
+                filter: blur(25px);
+            }
+
+            100% {
+                filter: blur(0px);
+            }
         }
     </style>
 </head>
@@ -69,6 +88,7 @@
                                 <button class="button is-primary is-large is-rounded is-fullwidth">สุ่มเลย</button>
                             </p>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -76,7 +96,7 @@
     </section>
     <!--// FORM  -->
 
-    <section class="section is-invisible" id="awardList" >
+    <section class="section is-invisible" id="awardList">
         <nav class="panel is-danger">
 
             <p class="panel-heading">
@@ -150,13 +170,23 @@
                         $('#awards').append(name);
 
                         $.each(JSON.parse(jqxhr.responseText), (i, item) => {
-                            $('#winners').append($(`<p class="panel-block is-active is-size-3 is-invisible"> <span class="panel-icon is-size-3"> <i class="fa fa-award"></i> </span> ${item.winner} </p>`));
+                            $('#winners').append($(`<p class="panel-block is-active is-size-3"> <span class="panel-icon is-size-3"> <i class="fa fa-award"></i> </span> ${item.winner} </p>`));
                         });
 
-                        setInterval(() => {
-                            $('#winners').find('p').removeClass('is-invisible');
+                        let panels = $("#winners"),
+                            items = panels.find("p"),
+                            delayItem = 500,
+                            j = 1000;
 
-                        }, 2000);
+                        items.each(function () {
+
+                            $(this).delay(j).animate({
+                                left: "0px",
+                                opacity: 1
+                            }, 500);
+                            j += delayItem;
+                        });
+
                     }
                 })
 
