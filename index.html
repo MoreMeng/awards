@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ATH-Awards</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js">
-    <link href="https://fonts.googleapis.com/css?family=Mitr&display=swap" rel="stylesheet">
+    <title>ATH-Awards 1.0.0</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js">
+    <link href="//fonts.googleapis.com/css?family=Mitr&display=swap" rel="stylesheet">
     <style>
         body,
         input,
@@ -57,8 +57,32 @@
     </section>
     <!--// HEADER -->
 
+    <!-- COUNTER -->
+    <section class="section " id="statistic"  style="padding-top: 15px;">
+        <div class="columns is-centered">
+            <div class="column is-half is-primary">
+
+                <nav class="level is-mobile">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading is-size-6">ผู้ลุ้นโชค</p>
+                            <p class="title has-text-danger count"><b id="countPerson">0</b></p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered ">
+                        <div>
+                            <p class="heading is-size-6">ผู้ได้รับรางวัล</p>
+                            <p class="title has-text-danger count"><b id="countAward">0</b></p>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- //COUNTER -->
+
     <!-- FORM -->
-    <section class="section" id="awardForm">
+    <section class="section" id="awardForm" style="padding-top: 10px;">
         <div class="container">
             <div class="columns is-centered">
                 <div class="column is-half is-primary">
@@ -111,9 +135,9 @@
             </p> -->
         </nav>
 
-                    <a class="button is-warning is-large is-rounded is-fullwidth" href="javascript:;" onclick="javascript:window.top.location.replace('./')">
-                      สุ่มใหม่
-                    </a>
+        <a class="button is-warning is-large is-rounded is-fullwidth" href="javascript:;" onclick="javascript:window.top.location.replace('./')">
+            สุ่มใหม่
+        </a>
 
     </section>
 
@@ -124,7 +148,42 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@9.5.3/dist/sweetalert2.all.min.js"></script>
 
     <script>
-        'use strict'
+        'use strict';
+
+        const counting = () => {
+            $('.count').each(function () {
+                $(this).prop('Counter', 0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 1000,
+                    easing: 'swing',
+                    step: function (now) {
+                        $(this).text(commaSeparateNumber(Math.ceil(now)));
+                    }
+                });
+            });
+        }
+
+
+        function commaSeparateNumber(val) {
+            while (/(\d+)(\d{3})/.test(val.toString())) {
+                val = val.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            }
+            return val;
+        }
+
+        let boarding = function () {
+            $.getJSON(`manage.php`, function (data) {
+                $.each(data, function (key, val) {
+                    console.log(key + ' ' + val);
+                });
+                $('#countPerson').html(data['person']);
+                $('#countAward').html(data['count']);
+                counting();
+
+            });
+            // setTimeout(boarding, 1000 * 5);
+        }
 
         $('form').on('submit', (e) => {
             e.preventDefault()
@@ -167,7 +226,7 @@
                         console.log('I was closed by the timer') // eslint-disable-line
                         console.log(jqxhr.responseText);
 
-                        $('#awardForm').hide();
+                        $('#awardForm,#statistic').hide();
 
                         $('#awardList').removeClass('is-invisible');
 
@@ -206,6 +265,9 @@
                 }
             });
         });
+
+        // counting();
+        boarding();
     </script>
 
 </body>

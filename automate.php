@@ -16,39 +16,6 @@ $tokens = [
     // 'a9wMrZW4mGyv5lTHktmpKhyw07XwkM2CZ5Sg8hEGnTp' => '📃ICT-Bots --- กลุ่มสาระer😂'
 ];
 
-// SSL USE
-
-if ( !function_exists( "send_line_curl" ) ) {
-    function send_line_curl( $message, $token ) {
-        $result_ = "";
-        $chOne   = curl_init();
-        curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify" );
-        //POST
-        curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0 );
-        curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0 );
-        //ADD header array
-        curl_setopt( $chOne, CURLOPT_POST, 1 );
-        curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message );
-        curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1 );
-        //RETURN
-        $headers = ['Content-type: multipart/form-data', 'Authorization: Bearer ' . $token];
-        curl_setopt( $chOne, CURLOPT_HTTPHEADER, $headers );
-        //Check error
-        curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1 );
-        $result = curl_exec( $chOne );
-        //Close connect
-        if ( curl_error( $chOne ) ) {
-            $error_  = ['status' => "Error", 'massage' => curl_error( $chOne )];
-            $result_ = json_decode( $error_, true );
-        } else {
-            $result_ = json_decode( $result, true );
-        }
-        // p( $_POST );
-        curl_close( $chOne );
-
-        return $result_;
-    }
-}
 // p( $ap_select );
 
 $GETAWARDNAME   = ( isset( $_POST['name'] ) ) ? $_POST['name'] : null;
