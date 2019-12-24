@@ -1,6 +1,9 @@
 <?php
 error_reporting( E_ALL ^ E_NOTICE );
 mb_internal_encoding( 'UTF-8' );
+header('Cache-Control: no-cache, no-store, must-revalidate');
+header('Pragma: no-cache');
+header('Expires: 0');
 
 require realpath( '../dv-config.php' );
 require DEV_PATH . '/classes/db.class.v2.php';
@@ -22,6 +25,10 @@ $count = count($query);
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.css">
     <link href="//fonts.googleapis.com/css?family=Mitr&display=swap" rel="stylesheet">
@@ -85,7 +92,7 @@ $count = count($query);
         </div>
     </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
     <script defer src="//use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script async>
         new Vue({
