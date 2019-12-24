@@ -43,7 +43,7 @@ $count = count($query);
 
 <body>
     <!-- HEADER -->
-    <section class="hero is-danger">
+    <section class="hero is-danger" id="hero">
         <div class="hero-body">
             <div class="container">
                 <div class="columns is-centered">
@@ -72,7 +72,18 @@ $count = count($query);
                 <div class="column is-four-fifths">
 
                     <div class="control has-icons-left search-wrapper">
-                        <input name="name" id="name" class="input is-danger is-large is-rounded" type="text" v-model="searchQuery" placeholder="ค้นหารายชื่อ จากผู้มีสิทธิ์ <?php echo $count;?> ราย" autocomplete="off">
+                        <input
+                            name="name"
+                            id="name"
+                            class="input is-danger is-large is-rounded"
+                            type="text"
+                            v-bind:value="searchQuery"
+                            v-on:input="searchQuery = $event.target.value"
+                            placeholder="ค้นหารายชื่อ จากผู้มีสิทธิ์ <?php echo $count;?> ราย"
+                            autocomplete="off"
+                            onfocus="document.getElementById('hero').style.display='none';"
+                            onblur="document.getElementById('hero').style.display='block';"
+                        >
                         <span class="icon is-small is-left">
                             <i class="fa fa-search"></i>
                         </span>
@@ -107,7 +118,7 @@ $count = count($query);
                 resultQuery() {
                     if (this.searchQuery) {
                         return this.resources.filter((item) => {
-                            return this.searchQuery.toLowerCase().split(' ').every(v => item.toLowerCase().includes(v))
+                            return this.searchQuery.split(' ').every(v => item.includes(v))
                         })
                     } else {
                         return this.resources;
