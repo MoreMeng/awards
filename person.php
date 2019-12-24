@@ -40,13 +40,18 @@ $count = count($query);
         <div class="hero-body">
             <div class="container">
                 <div class="columns is-centered">
-                    <div class="column is-half">
+                    <div class="column is-four-fifths">
                         <h1 class="title">
                             ตรวจสอบรายชื่อผู้มีสิทธิ์ลุ้นรางวัล
                         </h1>
                         <h2 class="subtitle">
                             งานเลี้ยงปีใหม่ โรงพยาบาลอ่างทอง 2562
                         </h2>
+
+                        <div class="box">
+                            <p>รายชื่อเจ้าหน้าที่ทุกคนที่เป็นข้าราชการ พนักงานราชการ ลูกจ้างประจำ และลูกจ้างที่จ้างด้วยเงินโรงพยาบาลที่อายุไม่เกิน 60 ปี </p>
+                            <p>หากไม่พบรายชื่อของเจ้าหน้าที่ท่านใดโปรดแจ้งมายัง ราตรี แฉล้มภักดิ์ ห้องผ่าตัดชั้น 3 โทร 370, 371</p>
+                        </div>
 
                     </div>
                 </div>
@@ -55,26 +60,29 @@ $count = count($query);
     </section>
     <!--// HEADER -->
     <section class="section">
-    <div id="app" class="container">
+        <div id="app" class="container">
+            <div class="columns is-centered">
+                <div class="column is-four-fifths">
 
-        <div class="control has-icons-left search-wrapper">
-            <input name="name" id="name" class="input is-danger is-large is-rounded" type="text" v-model="searchQuery" placeholder="ค้นหารายชื่อ จากผู้มีสิทธิ์ <?php echo $count;?> ราย"  autocomplete="off">
-            <span class="icon is-small is-left">
-                <i class="fa fa-search"></i>
-            </span>
+                    <div class="control has-icons-left search-wrapper">
+                        <input name="name" id="name" class="input is-danger is-large is-rounded" type="text" v-model="searchQuery" placeholder="ค้นหารายชื่อ จากผู้มีสิทธิ์ <?php echo $count;?> ราย" autocomplete="off">
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-search"></i>
+                        </span>
+                    </div>
+
+                    <div class="table-container">
+                        <table v-if="resources.length" class="table is-fullwidth">
+                            <tbody>
+                                <tr v-for="item in resultQuery" class="is-size-3">
+                                    <td>{{item}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="table-container">
-            <table v-if="resources.length" class="table is-fullwidth">
-                <tbody>
-                    <tr v-for="item in resultQuery" class="is-size-3">
-                        <td>{{item}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </div>
     </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
@@ -85,9 +93,7 @@ $count = count($query);
             data() {
                 return {
                     searchQuery: null,
-                    resources: [
-                        <?php echo $names;?>
-                    ]
+                    resources: [ <?php echo $names; ?> ]
                 };
             },
             computed: {
