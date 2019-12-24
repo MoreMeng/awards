@@ -15,6 +15,8 @@ foreach ( $query as $row ) {
 }
 $names = rtrim( $name, ',');
 // echo json_encode( $json_data );
+
+$count = count($query);
 ?>
 <!DOCTYPE html>
 <html>
@@ -56,7 +58,7 @@ $names = rtrim( $name, ',');
     <div id="app" class="container">
 
         <div class="control has-icons-left search-wrapper">
-            <input name="name" id="name" class="input is-danger is-large is-rounded" type="text" v-model="searchQuery" placeholder="ค้นหารายชื่อ" autocomplete="off" />
+            <input name="name" id="name" class="input is-danger is-large is-rounded" type="text" v-model="searchQuery" placeholder="ค้นหารายชื่อ จากผู้มีสิทธิ์ <?php echo $count;?> ราย"  autocomplete="off">
             <span class="icon is-small is-left">
                 <i class="fa fa-search"></i>
             </span>
@@ -74,6 +76,7 @@ $names = rtrim( $name, ',');
 
     </div>
     </section>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
     <script defer src="//use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script async>
