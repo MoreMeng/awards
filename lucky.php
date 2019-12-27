@@ -80,7 +80,7 @@ $count = count($query);
                             type="text"
                             v-bind:value="searchQuery"
                             v-on:input="searchQuery = $event.target.value"
-                            placeholder="ค้นหารายชื่อ จากผู้มีสิทธิ์ <?php echo $count;?> ราย"
+                            placeholder="ค้นหารายชื่อผู้ได้รับรางวัล <?php echo $count;?> ราย"
                             autocomplete="off"
                             onfocus="document.getElementById('hero').style.display='none';"
                             onblur="document.getElementById('hero').style.display='block';"
