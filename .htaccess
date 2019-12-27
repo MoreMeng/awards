@@ -10,6 +10,7 @@ RewriteCond %{REQUEST_URI} !(/$|\.)
 RewriteRule (.*) %{REQUEST_URI}/ [R=301,L]
 
 RewriteRule ^person/?$ person.php [QSA]
+RewriteRule ^lucky/?$ lucky.php [QSA]
 # RewriteRule ^view/([0-9-]+)/?$ view-detail.php?id=$1 [QSA]
 # RewriteRule ^tags/(.*)/$ index.php?dev=tags&tag=$1 [QSA]
 RewriteRule ^([a-z-]+)/?$ index.php?dev=$1 [QSA]

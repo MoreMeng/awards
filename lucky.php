@@ -44,7 +44,7 @@ $count = count($query);
 
 <body>
     <!-- HEADER -->
-    <section class="hero is-info" id="hero">
+    <section class="hero is-warning" id="hero">
         <div class="hero-body">
             <div class="container">
                 <div class="columns is-centered">
@@ -76,7 +76,7 @@ $count = count($query);
                         <input
                             name="name"
                             id="name"
-                            class="input is-danger is-large is-rounded"
+                            class="input is-warning is-large is-rounded"
                             type="text"
                             v-bind:value="searchQuery"
                             v-on:input="searchQuery = $event.target.value"
