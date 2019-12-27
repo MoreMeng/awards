@@ -3,6 +3,9 @@
 
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ATH-Awards 1.0.2</title>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.css">
@@ -58,7 +61,7 @@
     <!--// HEADER -->
 
     <!-- COUNTER -->
-    <section class="section " id="statistic"  style="padding-top: 15px;">
+    <section class="section " id="statistic" style="padding-top: 15px;">
         <div class="columns is-centered">
             <div class="column is-half is-primary">
 
@@ -173,7 +176,9 @@
         }
 
         let boarding = function () {
-            $.getJSON(`manage.php`, {_: new Date().getTime()}, function (data) {
+            $.getJSON(`manage.php`, {
+                _: new Date().getTime()
+            }, function (data) {
                 $.each(data, function (key, val) {
                     console.log(key + ' ' + val);
                 });

@@ -10,12 +10,13 @@ require DEV_PATH . '/classes/db.class.v2.php';
 require DEV_PATH . '/functions/global.php';
 
 
-$query = CON::selectArrayDB( [], "SELECT * FROM award_person ORDER BY ap_name ");
+$query = CON::selectArrayDB( [], "SELECT ap_name, ap_award FROM award_person WHERE ap_award != '' ORDER BY ap_award");
 
 // p($query);
 foreach ( $query as $row ) {
-    $name .= '"'.$row['ap_name'].'",';
+    $name .= '{lkyname:"'.$row['ap_name'].'",lkyaward:"'.$row['ap_award'].'"},';
 }
+// echo $name;
 $names = rtrim( $name, ',');
 // echo json_encode( $json_data );
 
@@ -43,22 +44,22 @@ $count = count($query);
 
 <body>
     <!-- HEADER -->
-    <section class="hero is-danger" id="hero">
+    <section class="hero is-info" id="hero">
         <div class="hero-body">
             <div class="container">
                 <div class="columns is-centered">
                     <div class="column is-four-fifths">
                         <h1 class="title">
-                            ตรวจสอบรายชื่อผู้มีสิทธิ์ลุ้นรางวัล
+                            ตรวจสอบรายชื่อผู้ได้รับรางวัล
                         </h1>
                         <h2 class="subtitle">
                             งานเลี้ยงปีใหม่ โรงพยาบาลอ่างทอง 2562
                         </h2>
 
-                        <div class="box">
+                        <!-- <div class="box">
                             <p>รายชื่อเจ้าหน้าที่ทุกคนที่เป็นข้าราชการ พนักงานราชการ ลูกจ้างประจำ และลูกจ้างที่จ้างด้วยเงินโรงพยาบาลที่อายุไม่เกิน 60 ปี </p>
                             <p>หากไม่พบรายชื่อของเจ้าหน้าที่ท่านใดโปรดแจ้งมายัง ราตรี แฉล้มภักดิ์ ห้องผ่าตัดชั้น 3 โทร 370, 371</p>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
@@ -79,7 +80,7 @@ $count = count($query);
                             type="text"
                             v-bind:value="searchQuery"
                             v-on:input="searchQuery = $event.target.value"
-                            placeholder="ค้นหารายชื่อ จากผู้มีสิทธิ์ <?php echo $count;?> ราย"
+                            placeholder="ค้นหารายชื่อผู้ได้รับรางวัล <?php echo $count;?> ราย"
                             autocomplete="off"
                             onfocus="document.getElementById('hero').style.display='none';"
                             onblur="document.getElementById('hero').style.display='block';"
@@ -93,7 +94,10 @@ $count = count($query);
                         <table v-if="resources.length" class="table is-fullwidth">
                             <tbody>
                                 <tr v-for="item in resultQuery" class="is-size-3">
-                                    <td>{{item}}</td>
+                                    <td>
+                                        <span class="is-pulled-left">{{item.lkyname}}</span>
+                                        <span class="is-pulled-right">{{item.lkyaward}}</span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -111,14 +115,14 @@ $count = count($query);
             data() {
                 return {
                     searchQuery: null,
-                    resources: [ <?php echo $names; ?> ]
+                    resources: [ <?php echo $names;?> ]
                 };
             },
             computed: {
                 resultQuery() {
                     if (this.searchQuery) {
                         return this.resources.filter((item) => {
-                            return this.searchQuery.split(' ').every(v => item.includes(v))
+                            return this.searchQuery.split(' ').every(v => item.lkyname.includes(v))
                         })
                     } else {
                         return this.resources;
