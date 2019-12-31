@@ -73,7 +73,7 @@
         <div class="hero-body">
             <div class="container">
                 <div class="columns is-centered">
-                    <div class="column is-half">
+                    <div class="column is-three-quarters">
                         <h1 class="title">
                             Happy New Year Random Gift <i class="fa fa-gift"></i>
                         </h1>
@@ -91,7 +91,7 @@
     <!-- COUNTER -->
     <section class="section " id="statistic" style="padding-top: 15px;">
         <div class="columns is-centered">
-            <div class="column is-half is-primary">
+            <div class="column is-three-quarters is-primary">
 
                 <nav class="level is-mobile">
                     <div class="level-item has-text-centered">
@@ -116,12 +116,12 @@
     <section class="section" id="awardForm" style="padding-top: 10px;">
         <div class="container">
             <div class="columns is-centered">
-                <div class="column is-half">
+                <div class="column is-three-quarters">
                     <form action="automate.php" method="post" id="random_form">
                         <div class="field">
                             <label class="label is-large">Name: ชื่อผู้จับสลากของขวัญ</label>
                             <p class="control has-icons-left">
-                                <input name="name" id="name" class="input is-danger is-large is-rounded" type="text" value="" required>
+                                <input name="name" id="name" class="input is-danger is-large is-rounded has-text-centered	" type="text" value="" required>
                                 <span class="icon is-small is-left">
                                     <i class="fa fa-smile"></i>
                                 </span>
@@ -156,10 +156,10 @@
     <section class="section is-invisible" id="awardList">
         <div class="container">
             <div class="columns is-centered">
-                <div class="column is-half">
+                <div class="column is-three-quarters">
         <nav class="panel is-danger">
 
-            <p class="panel-heading is-size-4">
+            <p class="panel-heading is-size-2 has-text-centered	">
                 "<span id="awards"></span>" ได้รับของขวัญจาก
             </p>
                         <div id="winners"></div>
@@ -274,7 +274,7 @@
                         $('#awards').append(name);
 
                         $.each(JSON.parse(jqxhr.responseText), (i, item) => {
-                            $('#winners').append($(`<p class="panel-block is-active is-size-3"> <span class="panel-icon is-size-3"> <i class="fa fa-gift"></i> </span> ${item.winner} </p>`));
+                            $('#winners').append($(`<p class="panel-block is-active is-size-1"> <span class="panel-icon is-size-1"> <i class="fa fa-gift"></i> </span> ${item.winner} </p>`));
                         });
 
                         let panels = $("#winners"),
