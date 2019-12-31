@@ -76,7 +76,7 @@ $count = count($query);
                         <input
                             name="name"
                             id="name"
-                            class="input is-warning is-large is-rounded"
+                            class="input is-warning is-large is-rounded is-size-6-touch is-size-3-desktop"
                             type="text"
                             v-bind:value="searchQuery"
                             v-on:input="searchQuery = $event.target.value"
@@ -85,7 +85,7 @@ $count = count($query);
                             onfocus="document.getElementById('hero').style.display='none';"
                             onblur="document.getElementById('hero').style.display='block';"
                         >
-                        <span class="icon is-small is-left">
+                        <span class="icon is-small is-left is-size-6-touch is-size-3-desktop">
                             <i class="fa fa-search"></i>
                         </span>
                     </div>
@@ -93,10 +93,10 @@ $count = count($query);
                     <div class="table-container">
                         <table v-if="resources.length" class="table is-fullwidth">
                             <tbody>
-                                <tr v-for="item in resultQuery" class="is-size-3">
+                                <tr v-for="item in resultQuery" class="is-size-6-touch is-size-3-desktop">
                                     <td>
                                         <span class="is-pulled-left">{{item.lkyname}}</span>
-                                        <span class="is-pulled-right">{{item.lkyaward}}</span>
+                                        <span class="is-pulled-right has-text-danger">{{item.lkyaward}}</span>
                                     </td>
                                 </tr>
                             </tbody>
