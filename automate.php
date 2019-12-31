@@ -21,56 +21,65 @@ $tokens = [
 $GETAWARDNAME   = ( isset( $_POST['name'] ) ) ? $_POST['name'] : null;
 $GETAWARDNUMBER = ( isset( $_POST['number'] ) ) ? $_POST['number'] : null;
 
-$year      = date( "Y" );
-$ap_select = CON::selectArrayDB( [], "SELECT ap_id FROM award_person WHERE ap_award IS NULL AND ap_year = '" . $year . "' ORDER BY RAND()" );
+if( check_post($_POST, ['name','number'])) {
 
-// p( $random_keys );
+    $year      = date( "Y" );
+    $ap_select = CON::selectArrayDB( [], "SELECT ap_id FROM award_person WHERE ap_award IS NULL AND ap_year = '" . $year . "' ORDER BY RAND()" );
 
-$random_keys = array_rand( $ap_select, $GETAWARDNUMBER );
-$apid        = '';
-// echo "SELECT ap_name, ap_award FROM award_person WHERE ap_id IN (" . substr( $apid, 0, -1 ) . ") ";
-if ( is_array( $random_keys ) ) {
-    foreach ( $random_keys as $row ) {
-        $temp = implode( "", $ap_select[$row] );
-        $apid .= $temp . ",";
+    // p( $random_keys );
+
+    $random_keys = array_rand( $ap_select, $GETAWARDNUMBER );
+    $apid        = '';
+    // echo "SELECT ap_name, ap_award FROM award_person WHERE ap_id IN (" . substr( $apid, 0, -1 ) . ") ";
+    if ( is_array( $random_keys ) ) {
+        foreach ( $random_keys as $row ) {
+            $temp = implode( "", $ap_select[$row] );
+            $apid .= $temp . ",";
+        }
+    } else {
+        $apid = $ap_select[$random_keys]['ap_id'] . ",";
     }
+
+    CON::updateDB( [], " UPDATE award_person SET ap_award = '" . $GETAWARDNAME . "' WHERE ap_id IN (" . substr( $apid, 0, -1 ) . ") " );
+
+    CON::updateDB( [], " INSERT INTO award_list (al_name, al_datetime, al_number) VALUES ('" . $GETAWARDNAME . "', NOW(), " . $GETAWARDNUMBER . ") " );
+
+    $query = CON::selectArrayDB( [], "SELECT ap_name, ap_award FROM award_person WHERE ap_id IN (" . substr( $apid, 0, -1 ) . ") " );
+
+    // p( $query );
+    foreach ( $query as $row ) {
+        $json_data[] = [
+            'winner' => $row['ap_name'],
+            'award'  => $row['ap_award']
+        ];
+        $message .= "\n" . '⊦ ' . $row['ap_name'];
+    }
+
+    echo json_encode( $json_data );
+
+    try {
+
+        $post = [
+            'message' => "\n" . '🎉' . " ผู้ได้รับรางวัล" . $GETAWARDNAME . $message
+        ];
+        // p($post);
+
+        foreach ( $tokens as $value => $name ) {
+            // p(send_line_curl($post, $value)); //debug
+            send_line_curl( $post, $value );
+        }
+
+        $response = '<div class="alert alert-success">ส่งข้อความเรียบร้อยแล้ว</div>';
+
+    } catch ( Exception $e ) {
+        $response = "<div>Error: กรุณากรอกข้อมูลให้ครบถ้วน</div>";
+
+    }
+
 } else {
-    $apid = $ap_select[$random_keys]['ap_id'] . ",";
-}
-
-CON::updateDB( [], " UPDATE award_person SET ap_award = '" . $GETAWARDNAME . "' WHERE ap_id IN (" . substr( $apid, 0, -1 ) . ") " );
-
-CON::updateDB( [], " INSERT INTO award_list (al_name, al_datetime, al_number) VALUES ('" . $GETAWARDNAME . "', NOW(), " . $GETAWARDNUMBER . ") " );
-
-$query = CON::selectArrayDB( [], "SELECT ap_name, ap_award FROM award_person WHERE ap_id IN (" . substr( $apid, 0, -1 ) . ") " );
-
-// p( $query );
-foreach ( $query as $row ) {
     $json_data[] = [
-        'winner' => $row['ap_name'],
-        'award'  => $row['ap_award']
+        'winner' => 'กรอกข้อมูลไม่ครบถ้วน',
+        'award'  => 'ไม่พบรางวัล'
     ];
-    $message .= "\n" . '⊦ ' . $row['ap_name'];
+    echo json_encode( $json_data );
 }
-
-echo json_encode( $json_data );
-
-try {
-
-    $post = [
-        'message' => "\n" . '🎉' . " ผู้ได้รับรางวัล" . $GETAWARDNAME . $message
-    ];
-    // p($post);
-
-    foreach ( $tokens as $value => $name ) {
-        // p(send_line_curl($post, $value)); //debug
-        send_line_curl( $post, $value );
-    }
-
-    $response = '<div class="alert alert-success">ส่งข้อความเรียบร้อยแล้ว</div>';
-
-} catch ( Exception $e ) {
-    $response = "<div>Error: กรุณากรอกข้อมูลให้ครบถ้วน</div>";
-
-}
-
