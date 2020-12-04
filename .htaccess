@@ -1,7 +1,10 @@
+Options +FollowSymLinks
 RewriteEngine On
-# RewriteBase /
 
-Options +FollowSymLinks +MultiViews
+# if external access force https
+RewriteCond %{HTTP_HOST} ^ath7.link [NC]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
