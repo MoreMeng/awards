@@ -10,7 +10,7 @@ require DEV_PATH . '/classes/db.class.v2.php';
 require DEV_PATH . '/functions/global.php';
 
 
-$query = CON::selectArrayDB( [], "SELECT ap_name, ap_award FROM award_person WHERE ap_award != '' ORDER BY ap_award");
+$query = CON::selectArrayDB( [], "SELECT ap_name, ap_award FROM award_person WHERE ap_award != '' AND ap_year = YEAR(CURDATE()) ORDER BY ap_award");
 
 // p($query);
 foreach ( $query as $row ) {
@@ -53,7 +53,7 @@ $count = count($query);
                             ตรวจสอบรายชื่อผู้ได้รับรางวัล
                         </h1>
                         <h2 class="subtitle">
-                            งานเลี้ยงปีใหม่ โรงพยาบาลอ่างทอง 2562
+                        จับรางวัลของขวัญปีใหม่ โรงพยาบาลอ่างทอง 2565
                         </h2>
 
                         <!-- <div class="box">
@@ -93,7 +93,7 @@ $count = count($query);
                     <div class="table-container">
                         <table v-if="resources.length" class="table is-fullwidth">
                             <tbody>
-                                <tr v-for="item in resultQuery" class="is-size-3">
+                                <tr v-for="item in resultQuery" class="is-size-4">
                                     <td>
                                         <span class="is-pulled-left">{{item.lkyname}}</span>
                                         <span class="is-pulled-right">{{item.lkyaward}}</span>

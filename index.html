@@ -36,9 +36,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <title>ATH-Awards 1.1.0</title>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js">
+    <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"> -->
     <link href="//fonts.googleapis.com/css?family=Mitr&display=swap" rel="stylesheet">
     <style>
         body,
@@ -78,7 +79,7 @@
                             Happy New Year Random Gift <i class="fa fa-gift"></i>
                         </h1>
                         <h2 class="subtitle">
-                            ระบบสุ่มจับรางวัลของขวัญปีใหม่ 2562
+                            ระบบสุ่มจับรางวัลของขวัญปีใหม่ 2565
                         </h2>
 
                     </div>
@@ -94,18 +95,18 @@
             <div class="column is-half is-primary">
 
                 <nav class="level is-mobile">
-                    <div class="level-item has-text-centered">
+                    <a class="level-item has-text-centered has-text-dark" href="./person">
                         <div>
-                            <p class="heading is-size-6">จำนวนของขวัญ</p>
+                            <p class="heading is-size-6">ผู้ลุ้นโชค</p>
                             <p class="title has-text-info count"><b id="countPerson">0</b></p>
                         </div>
-                    </div>
-                    <div class="level-item has-text-centered ">
+                    </a>
+                    <a class="level-item has-text-centered has-text-dark" href="./lucky">
                         <div>
-                            <p class="heading is-size-6">จับไปแล้ว</p>
+                            <p class="heading is-size-6">ผู้ได้รับรางวัล</p>
                             <p class="title has-text-info count"><b id="countAward">0</b></p>
                         </div>
-                    </div>
+                    </a>
                 </nav>
             </div>
         </div>
@@ -113,32 +114,32 @@
     <!-- //COUNTER -->
 
     <!-- FORM -->
-    <section class="section" id="awardForm" style="padding-top: 10px;">
+    <section class="section is-hidden" id="awardForm" style="padding-top: 10px;">
         <div class="container">
             <div class="columns is-centered">
                 <div class="column is-half">
                     <form action="automate.php" method="post" id="random_form">
                         <div class="field">
-                            <label class="label is-large">Name: ชื่อผู้จับสลากของขวัญ</label>
+                            <label class="label is-large">Award: ชื่อรางวัล</label>
                             <p class="control has-icons-left">
-                                <input name="name" id="name" class="input is-danger is-large is-rounded" type="text" value="" required>
+                                <input name="name" id="name" class="input is-danger is-large is-rounded has-text-centered" type="text" value="" required>
                                 <span class="icon is-small is-left">
                                     <i class="fa fa-smile"></i>
                                 </span>
                             </p>
                         </div>
 
-                        <input name="number" id="number" class="input is-danger is-large is-rounded" type="hidden" value="1" required>
+                        <!-- <input name="number" id="number" class="input is-danger is-large is-rounded" type="hidden" value="1" required> -->
 
-                        <!-- <div class="field">
+                        <div class="field">
                             <label class="label is-large">Number: จำนวนรางวัล</label>
                             <p class="control has-icons-left">
-                                <input name="number" id="number" class="input is-danger is-large is-rounded" type="number" value="1" required>
+                                <input name="number" id="number" class="input is-danger is-large is-rounded has-text-centered" type="number" value="1" required>
                                 <span class="icon is-small is-left">
                                     <i class="fa fa-users"></i>
                                 </span>
                             </p>
-                        </div> -->
+                        </div>
 
                         <div class="field">
                             <p class="control">
@@ -153,15 +154,19 @@
     </section>
     <!--// FORM  -->
 
-    <section class="section is-invisible" id="awardList">
+    <section class="section is-hidden" id="awardList">
         <div class="container">
             <div class="columns is-centered">
                 <div class="column is-half">
-        <nav class="panel is-danger">
+                    <nav class="panel is-danger">
 
-            <p class="panel-heading is-size-4">
-                "<span id="awards"></span>" ได้รับของขวัญจาก
-            </p>
+                        <p class="panel-heading">
+                            รายชื่อผู้ได้รับรางวัล <span id="awards"></span>
+                        </p>
+
+                        <!-- <p class="panel-heading is-size-4">
+                            "<span id="awards"></span>" ได้รับของขวัญจาก
+                        </p> -->
                         <div id="winners"></div>
                         <!-- <p class="panel-block is-active is-size-3">
                             <span class="panel-icon is-size-3">
@@ -170,7 +175,7 @@
                             bulma
                         </p> -->
                     </nav>
-                    <a class="button is-warning is-large is-rounded is-fullwidth" href="javascript:;" onclick="javascript:window.top.location.replace('./')">
+                    <a id="submitBtn" class="button is-warning is-large is-rounded is-fullwidth" href="javascript:;" onclick="javascript:window.top.location.replace('./')">
                         สุ่มใหม่
                     </a>
                 </div>
@@ -184,10 +189,41 @@
     <script src="//code.jquery.com/jquery.js"></script>
     <!-- <script src="//netdna.bootstrapcdn.com/bootstrap/js/bootstrap.min.js"></script> -->
     <script defer src="//use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@9.5.3/dist/sweetalert2.all.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <script>
         'use strict';
+
+        if (sessionStorage.getItem("passcode") === null) {
+            Swal.fire({
+                title: 'Submit your Passcode',
+                input: 'password',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showCancelButton: false,
+                confirmButtonText: 'LOGIN',
+                showLoaderOnConfirm: true,
+                preConfirm: (login) => {
+
+                    if (login == 'athospit') {
+                        sessionStorage.setItem('passcode', true);
+                        document.getElementById('awardForm').classList.remove('is-hidden');
+                        return true
+                    } else {
+                        Swal.showValidationMessage(
+                            `อ๊ะ! ดูเหมือนรหัสจะผิด`
+                        )
+                        return false
+                    }
+                }
+            });
+        } else {
+            document.getElementById('awardForm').classList.remove('is-hidden');
+        }
 
         const counting = () => {
             $('.count').each(function () {
@@ -247,16 +283,14 @@
                     html: 'I will close in <b></b> milliseconds.',
                     timer: 2000,
                     timerProgressBar: true,
-                    onBeforeOpen: () => {
+                    didOpen: () => {
                         Swal.showLoading()
+                        const b = Swal.getHtmlContainer().querySelector('b')
                         timerInterval = setInterval(() => {
-                            Swal.getContent().querySelector('b')
-                                .textContent = Swal.getTimerLeft()
+                            b.textContent = Swal.getTimerLeft()
                         }, 100)
-
-                        console.log('ส่งข้อมูล')
                     },
-                    onClose: () => {
+                    willClose: () => {
                         clearInterval(timerInterval)
                     }
                 }).then((result) => {
@@ -269,7 +303,7 @@
 
                         $('#awardForm,#statistic').hide();
 
-                        $('#awardList').removeClass('is-invisible');
+                        $('#awardList').removeClass('is-hidden');
 
                         $('#awards').append(name);
 

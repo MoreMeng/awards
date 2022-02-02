@@ -17,7 +17,7 @@ if ($_GET['delete'] == 'y') {
     CON::updateDB([],'TRUNCATE TABLE award_person;',true);
     header('Location:./');
 }
-$query = CON::selectArrayDB( [], "SELECT * FROM award_person ORDER BY ap_name ");
+$query = CON::selectArrayDB( [], "SELECT * FROM award_person WHERE ap_year = YEAR(CURDATE()) ORDER BY ap_name ");
 
 // p($query);
 foreach ( $query as $row ) {
@@ -87,14 +87,12 @@ $count = count($query);
                             ตรวจสอบรายชื่อผู้ร่วมสนุกจับรางวัลของขวัญปีใหม่ <i class="fa fa-gift"></i>
                         </h1>
                         <h2 class="subtitle">
-                            งานเลี้ยงปีใหม่ 2562
+                        จับรางวัลของขวัญปีใหม่ โรงพยาบาลอ่างทอง 2565
                         </h2>
-
-
                     </div>
                 </div>
             </div>
-            <div class="container">
+            <!-- <div class="container">
                 <div class="columns is-centered">
                     <div class="column is-four-fifths">
                         <form action="" method="post">
@@ -116,7 +114,7 @@ $count = count($query);
                     </div>
                 </div>
 
-            </div>
+            </div> -->
         </div>
     </section>
     <!--// HEADER -->
@@ -137,7 +135,7 @@ $count = count($query);
                     <div class="table-container">
                         <table v-if="resources.length" class="table is-fullwidth">
                             <tbody>
-                                <tr v-for="item in resultQuery" class="is-size-3">
+                                <tr v-for="item in resultQuery" class="is-size-4">
                                     <td>{{item}}</td>
                                 </tr>
                             </tbody>
@@ -147,13 +145,13 @@ $count = count($query);
             </div>
         </div>
     </section>
-    <footer class="footer">
+    <!-- <footer class="footer">
       <div class="container">
         <div class="content has-text-centered">
             <a href="?delete=y">ลบรายชื่อทั้งหมด</a>
         </div>
       </div>
-    </footer>
+    </footer> -->
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
     <script defer src="//use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
